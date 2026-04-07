@@ -1,0 +1,6 @@
+3. Installation
+Check if installed
+    hydra -h
+Install Hydra
+    sudo apt-get update
+    sudo apt-get install hydra
